@@ -27,8 +27,10 @@ struct graph {
   graph(graph&&) = delete;
   graph& operator=(graph&&) = delete;
 
-  float x_min, x_max;
-  float y_min, y_max;
+  // float x_min, x_max;
+  // float y_min, y_max;
+  glm::vec2 min, max;
+  size_t samples;
   gl::GLuint vertex_array;
   gl::GLuint vertex_buffer;
 };
@@ -58,29 +60,23 @@ class application {
   static void scroll_callback(GLFWwindow* window, double x, double y);
 
  private:
+  void create_opengl_context();
+  void init_shaders();
+  void init_opengl();
   void process_events();
+  void update_view();
   void resize();
   void render();
 
  private:
   GLFWwindow* window;
-  int width;
-  int height;
+  int width = 500;
+  int height = 500;
   unsigned int plot_border = 100;
 
-  gl::GLuint vertex_array;
-  gl::GLuint vertex_buffer;
-  gl::GLuint border_vertex_array;
   gl::GLuint program;
-  gl::GLuint mvp_location;
   gl::GLuint point_program;
-  gl::GLuint point_mvp_location;
-
-  const size_t samples = 100;
-  float x_min;
-  float x_max;
-  float y_min;
-  float y_max;
+  gl::GLuint mvp_location;
 
   glm::vec2 origin{};
   glm::vec2 fov{1, 1};
